@@ -1,31 +1,30 @@
 
-# Arquivo de Configuração do Apache - Padrão de Instalação |   # Arquivo de Hardening do Apache
-                                                           | ServerTokens Prod
-ServerRoot "/etc/httpd"                                    | ServerSignature Off
-PidFile /var/run/httpd.pid                                 | Timeout 60
-Timeout 300                                                | KeepAlive On
-KeepAlive On                                               | MaxKeepAliveRequests 50
-MaxKeepAliveRequests 100                                   | KeepAliveTimeout 3
-KeepAliveTimeout 5                                         | TraceEnable Off
-Listen 80                                                  | FileETag None
-ServerTokens Full                                          | Header always unset X-Powered-By                                                
-ServerSignature On                                         | <Directory />
-TraceEnable On                                             |     AllowOverride None
-User apache                                                |     Require all denied
-Group apache                                               |     Options -Indexes -FollowSymLinks -ExecCGI
-DocumentRoot "/var/www/html"                               | <Directory "/var/www/html">
-<Directory />                                              |     Options -Indexes -FollowSymLinks -ExecCGI
-    AllowOverride none                                     |     AllowOverride None
-    Require all denied                                     |      Require all granted
-</Directory>                                               | </Directory>
-<Directory "/var/www/html">                                | Header edit Set-Cookie ^(.*)$ $1;HttpOnly;Secure
-    Options Indexes FollowSymLinks                         | ErrorLog "logs/error_log"
-    AllowOverride None                                     | LogLevel error
-    Require all granted                                    | CustomLog "logs/access_log" combined
-</Directory>                                               | 
-ErrorLog "logs/error_log"                                  |
+# Arquivo de Configuração do Apache - Padrão de Instalação | # Arquivo de Hardening do Apache
+ServerRoot "/etc/httpd"                                    | ServerTokens Prod
+PidFile /var/run/httpd.pid                                 | ServerSignature Off
+Timeout 300                                                | Timeout 60
+KeepAlive On                                               | KeepAlive On
+MaxKeepAliveRequests 100                                   | MaxKeepAliveRequests 50
+KeepAliveTimeout 5                                         | KeepAliveTimeout 3
+Listen 80                                                  | TraceEnable Off
+ServerTokens Full                                          | FileETag None
+ServerSignature On                                         | Header always unset X-Powered-By
+TraceEnable On                                             | <Directory />
+User apache                                                |     AllowOverride None
+Group apache                                               |     Require all denied
+DocumentRoot "/var/www/html"                               |     Options -Indexes -FollowSymLinks -ExecCGI
+<Directory />                                              | </Directory>
+    AllowOverride none                                     | <Directory "/var/www/html">
+    Require all denied                                     |     Options -Indexes -FollowSymLinks -ExecCGI
+</Directory>                                               |     AllowOverride None
+<Directory "/var/www/html">                                |     Require all granted
+    Options Indexes FollowSymLinks                         | </Directory>
+    AllowOverride None                                     | Header edit Set-Cookie ^(.*)$ $1;HttpOnly;Secure
+    Require all granted                                    | ErrorLog "logs/error_log"
+</Directory>                                               | LogLevel error
+ErrorLog "logs/error_log"                                  | CustomLog "logs/access_log" combined
 LogLevel warn                                              |
 CustomLog "logs/access_log" combined                       |
 <IfModule dir_module>                                      |
     DirectoryIndex index.html                              |
-</IfModule>                                                |
+</IfModule>
