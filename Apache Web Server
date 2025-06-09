@@ -1,0 +1,59 @@
+
+# Arquivo de Configuração do Apache - Padrão de Instalação
+
+ServerRoot "/etc/httpd"
+PidFile /var/run/httpd.pid
+Timeout 300
+KeepAlive On
+MaxKeepAliveRequests 100
+KeepAliveTimeout 5
+Listen 80
+ServerTokens Full
+ServerSignature On
+TraceEnable On
+User apache
+Group apache
+DocumentRoot "/var/www/html"
+<Directory />
+    AllowOverride none
+    Require all denied
+</Directory>
+<Directory "/var/www/html">
+    Options Indexes FollowSymLinks
+    AllowOverride None
+    Require all granted
+</Directory>
+ErrorLog "logs/error_log"
+LogLevel warn
+CustomLog "logs/access_log" combined
+<IfModule dir_module>
+    DirectoryIndex index.html
+</IfModule>
+
+---------------------------------------
+
+# Arquivo de Hardening do Apache
+
+ServerTokens Prod
+ServerSignature Off
+Timeout 60
+KeepAlive On
+MaxKeepAliveRequests 50
+KeepAliveTimeout 3
+TraceEnable Off
+FileETag None
+Header always unset X-Powered-By
+<Directory />
+    AllowOverride None
+    Require all denied
+    Options -Indexes -FollowSymLinks -ExecCGI
+</Directory>
+<Directory "/var/www/html">
+    Options -Indexes -FollowSymLinks -ExecCGI
+    AllowOverride None
+    Require all granted
+</Directory>
+Header edit Set-Cookie ^(.*)$ $1;HttpOnly;Secure
+ErrorLog "logs/error_log"
+LogLevel error
+CustomLog "logs/access_log" combined
