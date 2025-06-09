@@ -1,0 +1,17 @@
+# Arquivo de Configuração do SSH - Padrão de Instalação   | # Arquivo de Hardening do SSH
+Port 22                                                   | Port 22
+Protocol 2                                                | Protocol 2
+PermitRootLogin yes                                       | PermitRootLogin no
+PasswordAuthentication yes                                | PasswordAuthentication no
+PermitEmptyPasswords yes                                  | PermitEmptyPasswords no
+ChallengeResponseAuthentication yes                       | ChallengeResponseAuthentication no
+UsePAM yes                                                | UsePAM yes
+X11Forwarding yes                                         | X11Forwarding no
+X11DisplayOffset 10                                       | AllowTcpForwarding no
+PrintMotd no                                              | MaxAuthTries 3
+ClientAliveInterval 0                                     | ClientAliveInterval 300
+ClientAliveCountMax 3                                     | ClientAliveCountMax 2
+Subsystem	sftp	/usr/lib/openssh/sftp-server      | LoginGraceTime 30
+                                                          | PermitUserEnvironment no
+                                                          | Subsystem	sftp	/usr/lib/openssh/sftp-server
+                                                          | Banner /etc/issue.net
